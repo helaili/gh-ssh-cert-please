@@ -1,26 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
-	"github.com/cli/go-gh/v2/pkg/api"
+	"github.com/helaili/gh-ssh-cert-please/cmd"
+)
+
+var (
+	version = "next"
+	commit  = ""
 )
 
 func main() {
-	fmt.Println("hi world, this is the gh-ssh-cert-please extension!")
-	client, err := api.DefaultRESTClient()
-	if err != nil {
-		fmt.Println(err)
-		return
+	rootCmd := cmd.New(version, commit)
+	if err := rootCmd.Execute(); err != nil {
+		l := log.New(rootCmd.ErrOrStderr(), "", 0)
+		l.Fatalln("🚫", err.Error())
 	}
-	response := struct {Login string}{}
-	err = client.Get("user", &response)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("running as %s\n", response.Login)
 }
-
-// For more examples of using go-gh, see:
-// https://github.com/cli/go-gh/blob/trunk/example_gh_test.go
