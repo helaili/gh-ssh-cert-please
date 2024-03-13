@@ -1,7 +1,8 @@
 package cmd
 
 import (
-	"github.com/helaili/gh-ssh-cert-please/cmd/keys"
+	"github.com/helaili/gh-ssh-cert-please/cmd/get"
+
 	"github.com/spf13/cobra"
 )
 
@@ -16,7 +17,7 @@ func New(version, commit string) *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		keys.New(),
+		get.New(),
 	)
 	return cmd
 }

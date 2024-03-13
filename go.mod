@@ -5,7 +5,13 @@ go 1.20
 require github.com/cli/go-gh/v2 v2.6.0
 
 require (
+	github.com/google/go-github/v60 v60.0.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
+)
+
+require (
 	github.com/aymanbagabas/go-osc52 v1.0.3 // indirect
+	github.com/cli/go-gh v1.2.1
 	github.com/cli/safeexec v1.0.0 // indirect
 	github.com/cli/shurcooL-graphql v0.0.4 // indirect
 	github.com/henvic/httpretty v0.0.6 // indirect
