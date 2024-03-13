@@ -28,13 +28,11 @@ func RetrieveCertificates(org string, repo string, login string) ([]github.Artif
 	artifactName := fmt.Sprintf("name=%s-%s-cert.pub", login, org)
 	endpoint := fmt.Sprintf("repos/%s/%s/actions/artifacts", org, repo)
 
-	fmt.Println("Retrieving certificates")
 	artefacts, stderr, err := gh.Exec("api", endpoint, "--field", artifactName, "--method", "GET")
 	if err != nil {
 		fmt.Printf("error: %s, %s", err, stderr.String())
 		return nil, err
 	}
-	fmt.Println(artefacts.String())
 
 	// Unmarshal the response into the artifactResponse variable
 	artifactResponse := struct {
@@ -90,7 +88,7 @@ func DeleteCertificates(org string, repo string, login string) error {
 	return nil
 }
 
-func DownloadCertificate(certificate github.Artifact) error {
+func DownloadCertificate(certificate github.Artifact, certFilePath string) error {
 	stdout, stderr, err := gh.Exec("api", *certificate.ArchiveDownloadURL, "--method", "GET", "--field", "archive_format=zip")
 	if err != nil {
 		return fmt.Errorf("error: %s, %s", err, stderr.String())
@@ -116,7 +114,7 @@ func DownloadCertificate(certificate github.Artifact) error {
 		defer fileReader.Close()
 
 		// Create the destination file
-		destPath := file.Name
+		destPath := fmt.Sprintf("%s/%s", certFilePath, file.Name)
 		destFile, err := os.Create(destPath)
 		if err != nil {
 			return fmt.Errorf("error creating destination file: %s", err)
